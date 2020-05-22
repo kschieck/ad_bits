@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>AdBits Proof of Concept</title>
+	</head>
+	<body>
+		<input type="button" onclick="playVideoAd();" value="Play Video Ad" />
+
+		<br />
+		<p>User Id: <span id="userId">?</span></p>
+		<br />
+		<p>Balance: <span id="balance">?</span></p>
+
+		<!-- Applixir SDK and functions -->
+		<div id="applixir_vanishing_div" hidden>
+			<iframe id="applixir_parent" allow="autoplay"></iframe>
+		</div>
+		<script type='text/javascript' src="https://cdn.applixir.com/applixir.sdk3.0m.js"></script>
+		<script type="application/javascript">
+
+			// Randomly generate user id
+			var userId = Math.floor(Math.random() * 10);
+			document.getElementById("userId").innerHTML = userId.toString();
+
+			// Optional callback function use to inform users of various status conditions:
+			function adStatusHandler(status) {
+				//. The status parameter will turn the following values:
+				// 'ad-blocker' = an ad blocker was detected
+				// 'network-error' = connectivity problem
+				// ‘cors-error’ = Cross-Origin error (try clearing browser cache)
+				// ‘no-zoneId’ = the required zoneId value is missing
+				// ‘ad-started’ = an ad has been loaded and is starting. Do NOT block this.
+				// ‘fb-started’ = a fallback ad has been started. Do NOT block this.
+				// 'ad-watched' = an ad was presented and ran successfully
+				// 'ad-interrupted' = ad was ended early and was unsuccessful
+				// 'ads-unavailable' = no ads were available from the ad server
+				// 'fb-watched' = fallback mode successfully displayed a fallback ad
+				// ‘sys-closing’ = this is the final message prior to the ad window closing
+
+
+				// Wait a bit to guarantee the reward will be available.
+				// This is only necessary because the ad server proxy (the one that pays the 
+				// reward to the gameserver) is separate from the actual ad server (the one 
+				// that tells the user their reward is ready via ad-watched message)
+				if (status == 'ad-watched') {
+					setTimeout(updateBalance, 3000);
+				}
+
+				console.log("Applixir status: " + status);
+			}
+
+			function playVideoAd() {
+				var options = {
+					zoneId: , // From the “Games" page (required) use zone 2050 for testing
+					devId: , // Use Account ID on the Games panel (required for S2S callback)
+					custom1: userId,
+					gameId: , // Use Game ID on the Games panel (required for S2S callback)
+					fallback: 0, // fallback: 1 will display a banner ad if no videos are available
+					adStatusCb: adStatusHandler, // The name from local callback (optional),
+					verbosity: 10,
+				};
+				// Call the following function when you want to present a video ad to your user
+				invokeApplixirVideoUnit(options);
+			}
+
+			function updateBalance() {
+				console.log("update balance");
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				        document.getElementById("balance").innerHTML = JSON.parse(xhttp.responseText).balance;
+						console.log("update balance complete " + xhttp.responseText);
+				    }
+				};
+				xhttp.open("GET", "/balance?userId="+userId, true);
+				xhttp.send();
+			}
+			updateBalance();
+
+		</script>
+	</body>
+
+</html>

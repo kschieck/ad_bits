@@ -1,5 +1,5 @@
 # Ad Bits
-Proof of Concept for an ad server that pays for every ad view instantly over the Bitcoin Lightning network
+Proof of Concept for an ad server that pays for every ad view instantly over the Bitcoin Lightning Network
 
 ## Demo
 
@@ -7,9 +7,12 @@ https://vimeo.com/421500938
 
 ## What it does:
 
+![Network Flow Diagram](https://raw.githubusercontent.com/kschieck/ad_bits/master/network_diagram.png)
+
 - The user views an ad which prompts the ad server to call the reward server to server callback request
 - The proxy ad server receives this callback, requests an invoice from the gameserver and then sends payment via the lightning network
 - The gameserver receives the payment instantly and rewards the player instantly
+- The user refreshes their balance
 
 ## Proxy Ad Server??
 

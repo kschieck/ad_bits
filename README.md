@@ -36,6 +36,8 @@ Required service:
    - Fill in Applixir game settings in `gameserver/public/index.html`
  - Or: remove ad callback verification code and manually call `http://<ip>:3001/ad?custom1={userId}&msat={msatoshis}` to trigger a payment to the gameserver
 
+Change the IP address in `proxy_adserver/app.js` to the gameserver's host IP
+
 Start up bitcoin and 2 lightning nodes (in regtest mode):
 ```
 cd git/lightning
@@ -61,8 +63,6 @@ Start up lightning-charge (connected to lightning node 1)
 NETWORK=regtest charged --api-token super_secret_1 --ln-path /tmp/l1-regtest/regtest/ --db-path ~/charge1.db --port 9112
 ```
 
-Change the IP address in `proxy_adserver/app.js` to the gameserver's host IP
-
 Open 2 new windows and run: (sudo is required for the game server because it's hosted on port 80)
 ```
 cd git/ad_bits/gameserver
@@ -77,3 +77,11 @@ npm start
 Note: I also had to make some changes to the clightning-rpc plugin. I made a PR hopefully the owner incorporates my changes into their repo. Here's that PR: https://github.com/SerafinTech/node-clightning-rpc/pull/2
 
 Load up your webpage in a browser at `http://<ip>` and press the "Play Video Ad" button.
+
+## Cleanup
+```
+cd ~/git/lightning
+source contrib/startup_regtest.sh
+stop_ln
+cleanup_ln
+```

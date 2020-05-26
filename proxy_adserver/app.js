@@ -17,10 +17,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// TODO https://github.com/SerafinTech/node-clightning-rpc
-
 const CLightning = require('clightning-rpc');
 const cl_client = new CLightning("/tmp/l2-regtest/regtest/lightning-rpc"); // test client 2
+
+var gameServerHostIP = "192.168.1.42";
 
 // Thanks, stackoverflow https://stackoverflow.com/questions/46069284/synchronous-http-request-in-node-js
 function requestPromise(options, postData = null) {
@@ -99,7 +99,7 @@ app.get('/ad', async function(req, res, next) {
 	// Pay game server for showing the ad
 	try {
 	    const requ = await requestPromise({
-	    	hostname: '192.168.1.42',
+	    	hostname: gameServerHostIP,
 			port: 80,
 			path: '/invoice',
 			method: "POST",

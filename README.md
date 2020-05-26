@@ -61,6 +61,8 @@ Start up lightning-charge (connected to lightning node 1)
 NETWORK=regtest charged --api-token super_secret_1 --ln-path /tmp/l1-regtest/regtest/ --db-path ~/charge1.db --port 9112
 ```
 
+Change the IP address in `proxy_adserver/app.js` to the gameserver's host IP
+
 Open 2 new windows and run: (sudo is required for the game server because it's hosted on port 80)
 ```
 cd git/ad_bits/gameserver
@@ -71,5 +73,7 @@ sudo npm start
 cd git/ad_bits/proxy_adserver
 npm start
 ```
+
+Note: I also had to make some changes to the clightning-rpc plugin. I made a PR hopefully the owner incorporates my changes into their repo. Here's that PR: https://github.com/SerafinTech/node-clightning-rpc/pull/2
 
 Load up your webpage in a browser at `http://<ip>` and press the "Play Video Ad" button.

@@ -72,4 +72,6 @@ cd git/ad_bits/proxy_adserver
 npm start
 ```
 
+Note: I also had to make some changes to the clightning-rpc plugin. I made a PR hopefully the owner incorporates my changes into their repo. Here's that PR: https://github.com/SerafinTech/node-clightning-rpc/pull/2
+
 Load up your webpage in a browser at `http://<ip>` and press the "Play Video Ad" button.

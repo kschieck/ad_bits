@@ -61,6 +61,8 @@ Start up lightning-charge (connected to lightning node 1)
 NETWORK=regtest charged --api-token super_secret_1 --ln-path /tmp/l1-regtest/regtest/ --db-path ~/charge1.db --port 9112
 ```
 
+Change the IP address in `proxy_adserver/app.js` to the gameserver's host IP
+
 Open 2 new windows and run: (sudo is required for the game server because it's hosted on port 80)
 ```
 cd git/ad_bits/gameserver
